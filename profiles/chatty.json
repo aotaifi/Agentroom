@@ -1,0 +1,45 @@
+{
+  "schema_version": 2,
+  "name": "chatty-demo",
+  "image": "localhost/agent-pods-chatty:0.1",
+  "network": "none",
+  "resources": {
+    "cpus": 2,
+    "memory": "4g",
+    "workspace": "768m",
+    "home": "128m",
+    "tmp": "128m",
+    "pids": 128
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "JAX_PLATFORMS": "cpu",
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "false"
+  },
+  "gateway": {
+    "max_jobs": 8,
+    "max_job_bytes": 16777216,
+    "backends": {
+      "slurm": {
+        "kind": "slurm",
+        "label": "Paderborn (adapter not enabled)",
+        "max_cpus": 16,
+        "max_memory_mb": 131072,
+        "max_gpus": 1,
+        "max_walltime_seconds": 28800
+      },
+      "poorman": {
+        "kind": "poorman",
+        "label": "Workstation pool (adapter not enabled)",
+        "max_cpus": 4,
+        "max_memory_mb": 8192,
+        "max_gpus": 0,
+        "max_walltime_seconds": 28800
+      }
+    }
+  },
+  "permissions": {
+    "jobs": "prepare"
+  }
+}

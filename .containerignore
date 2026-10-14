@@ -1,0 +1,9 @@
+.git
+.runtime
+.inputs
+artifacts
+tests
+docs
+__pycache__
+**/__pycache__
+*.tar.gz

@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-pods"
+version = "0.1.0"
+description = "Rootless, resource-limited workspaces for coding and research agents"
+requires-python = ">=3.9"
+dependencies = []
+
+[project.scripts]
+agent-pods = "agent_pods.cli:main"
+jobctl = "agent_pods.client:main"
+
+[tool.setuptools.packages.find]
+include = ["agent_pods*"]

@@ -1,0 +1,11 @@
+FROM docker.io/library/python:3.11-slim-bookworm
+RUN apt-get update && apt-get install -y --no-install-recommends bash git ca-certificates procps \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd --uid 1000 --create-home --shell /bin/bash agent
+COPY agent_pods /opt/agent-pods/agent_pods
+COPY pyproject.toml /opt/agent-pods/pyproject.toml
+RUN pip install --no-cache-dir /opt/agent-pods
+ENV HOME=/home/agent PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+WORKDIR /workspace
+USER 1000:1000
+CMD ["sleep", "infinity"]

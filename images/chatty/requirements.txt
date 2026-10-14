@@ -1,0 +1,10 @@
+# CPU baseline matched to the verified Chatty Python 3.11 environment.
+numpy==2.4.6
+scipy==1.17.1
+jax==0.10.2
+jaxlib==0.10.2
+NetKet==3.22.4
+flax==0.12.8
+optax==0.2.8
+numba==0.67.0
+reportlab==5.0.1

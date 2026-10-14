@@ -1,0 +1,43 @@
+{
+  "schema_version": 2,
+  "name": "generic-demo",
+  "image": "localhost/agent-pods-base:0.1",
+  "network": "none",
+  "resources": {
+    "cpus": 2,
+    "memory": "2g",
+    "workspace": "512m",
+    "home": "128m",
+    "tmp": "128m",
+    "pids": 128
+  },
+  "environment": {
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2"
+  },
+  "gateway": {
+    "max_jobs": 8,
+    "max_job_bytes": 16777216,
+    "backends": {
+      "slurm": {
+        "kind": "slurm",
+        "label": "Slurm cluster",
+        "max_cpus": 8,
+        "max_memory_mb": 16384,
+        "max_gpus": 0,
+        "max_walltime_seconds": 28800
+      },
+      "poorman": {
+        "kind": "poorman",
+        "label": "Workstation pool",
+        "max_cpus": 4,
+        "max_memory_mb": 8192,
+        "max_gpus": 0,
+        "max_walltime_seconds": 28800
+      }
+    }
+  },
+  "permissions": {
+    "jobs": "none"
+  }
+}

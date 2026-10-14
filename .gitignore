@@ -1,0 +1,15 @@
+.runtime/
+.private/
+.inputs/
+artifacts/
+__pycache__/
+*.pyc
+.venv/
+*.tar
+*.tar.gz
+*.mpack
+*.npz
+.env
+.env.*
+*.pem
+*.key

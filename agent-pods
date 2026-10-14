@@ -1,0 +1,3 @@
+#!/usr/bin/env python3
+from agent_pods.cli import main
+main()
