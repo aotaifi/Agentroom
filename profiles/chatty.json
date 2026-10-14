@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "name": "chatty-demo",
-  "image": "localhost/agent-pods-chatty:0.1",
+  "image": "localhost/agent-pods-base:0.1",
   "network": "none",
   "resources": {
     "cpus": 2,

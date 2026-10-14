@@ -1,11 +1,21 @@
 FROM docker.io/library/python:3.11-slim-bookworm
-RUN apt-get update && apt-get install -y --no-install-recommends bash git ca-certificates procps \
+
+# General programming tools. Python includes pip and venv.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash git curl ca-certificates procps build-essential \
     && rm -rf /var/lib/apt/lists/* \
     && useradd --uid 1000 --create-home --shell /bin/bash agent
+
+# Add project-specific Python packages to this list and rebuild the same image.
+COPY images/base/requirements.txt /opt/agent-pods/requirements.txt
+RUN python -m pip install --no-cache-dir -r /opt/agent-pods/requirements.txt
+
 COPY agent_pods /opt/agent-pods/agent_pods
 COPY pyproject.toml /opt/agent-pods/pyproject.toml
-RUN pip install --no-cache-dir /opt/agent-pods
+RUN python -m pip install --no-cache-dir /opt/agent-pods
+
 ENV HOME=/home/agent PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+ENV PATH="/home/agent/.local/bin:${PATH}"
 WORKDIR /workspace
 USER 1000:1000
 CMD ["sleep", "infinity"]

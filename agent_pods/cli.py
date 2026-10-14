@@ -253,7 +253,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
     build = sub.add_parser("build")
-    build.add_argument("kind", choices=["base", "chatty"])
+    build.add_argument("kind", nargs="?", default="base", choices=["base"])
     launch = sub.add_parser("start")
     launch.add_argument("--profile", required=True)
     launch.add_argument("--source", required=True)

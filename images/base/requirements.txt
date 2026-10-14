@@ -1,0 +1,5 @@
+# Basic Python programming and local package building.
+numpy==2.4.6
+pytest>=8,<10
+setuptools>=61
+wheel

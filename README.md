@@ -129,7 +129,26 @@ A configuration flag alone cannot enable live submission.
 Schema v2 makes permissions explicit. Existing v1 profiles are read as
 preparation-only to preserve their original behavior.
 
+## One image template
+
+images/base/Containerfile is the single image recipe. It provides Python 3.11,
+pip, virtual environments, NumPy, pytest, Git, Bash, curl, and C/C++ build tools.
+Python packages are listed in images/base/requirements.txt; add the packages your
+project needs and rebuild with ./agent-pods build base. The same template builds
+your configured environment.
+
+Inside the pod, non-root pip installations go into the agent's writable home;
+their command-line tools are on PATH. Packages can also be installed in a virtual
+environment under /workspace. Downloading new packages requires network access:
+the current launcher remains offline, so use packages included at image build
+time or locally staged wheels/source. No network permission is changed by adding pip.
+
 ## Chatty example
+
+Chatty's extra scientific requirements are kept in examples/chatty/requirements.txt
+as an optional package list, not a second image template. Add the required lines
+to images/base/requirements.txt and rebuild the base image before using Chatty's
+scientific tools.
 
 On the Mac, stage a private source/input snapshot:
 
@@ -139,21 +158,24 @@ python3 -m agent_pods.stage_chatty \
   --output .private/chatty-snapshot
 ```
 
-Copy the snapshot to the build host. Copy its vendor/nqsmagic directory to
-.private/vendor/nqsmagic there, build base, then build the Chatty image:
+Copy the snapshot to the build host. Include the privately staged nqsmagic source
+in the seed so it can be installed without downloading anything:
 
 ```sh
-./agent-pods build chatty
+cp -R .private/chatty-snapshot/vendor .private/chatty-snapshot/seed/vendor
+./agent-pods build base
 ./agent-pods start --profile profiles/chatty.json \
   --source .private/chatty-snapshot/seed --name chatty-task --jobs prepare
+./agent-pods exec chatty-task -- python -m pip install \
+  --no-build-isolation --no-deps /workspace/vendor/nqsmagic
 ./agent-pods verify chatty-task
 ./agent-pods exec chatty-task -- bash
 ```
 
-The selected files are copied; original Chatty remains untouched. Python 3.11
-scientific dependencies are pinned in images/chatty/requirements.txt. Local
-nqsmagic source and model inputs remain private. Mac automation and SSH/VPN helpers
-stay on their existing hosts. See [the ws1 demo](docs/DEMO.md).
+The selected files are copied; original Chatty remains untouched. Local nqsmagic
+source and model inputs remain private. Mac automation and SSH/VPN helpers stay
+on their existing hosts. The earlier scientific image is documented as a historical
+validation in [the ws1 demo](docs/DEMO.md).
 
 ## Bind the agent and verify
 

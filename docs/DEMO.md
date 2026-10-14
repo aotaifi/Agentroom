@@ -69,3 +69,14 @@ The earlier chatty-demo was retained without a restart during the startup change
 Existing pods are not automatically upgraded; the updated startup behavior was
 verified with chatty-startup. The temporary off-mode test pod was exported and
 removed.
+
+Image simplification: there is now one image recipe, images/base/Containerfile.
+The dependencies in the table above describe the earlier validated scientific
+image. New Chatty workspaces use the base recipe with project packages added
+explicitly; the optional scientific requirements are in examples/chatty/requirements.txt.
+
+Base programming validation on 14 October 2026 passed: NumPy 2.4.6, pytest 9.1.1,
+virtual environments, C compilation, non-root local pip installation, and 29 live
+isolation checks. This used a fresh isolated Podman cache because ws1's existing
+cache failed with a missing /bin/sh. The verification cache is selected with
+CONTAINERS_STORAGE_CONF=/scratch-local/a.otaifi/agentroom-base-validation/storage.conf.
