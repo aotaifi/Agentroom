@@ -1,8 +1,13 @@
 # Chatty prototype on ws1
 
-Agentroom's first demo is running as the `chatty-startup` rootless Podman pod.
-It contains an agent workspace and a separate preparation gateway. No AI model
-has been started; an agent's terminal/file tools must execute through the CLI.
+Agentroom's first demo was verified as the `chatty-startup` rootless Podman pod,
+with an agent workspace and a separate preparation gateway. The settings and
+checks below record that prototype setup. No AI model was started; an agent's
+terminal/file tools must execute through the CLI.
+
+Observed on 14 October 2026: both `chatty-startup` and `chatty-demo` were stopped
+(`Exited`). This document is a setup record; use the status commands below for
+current runtime state. Publishing the toolkit does not start the pods.
 
 | Setting | Verified value |
 |---|---|
@@ -47,7 +52,8 @@ research jobs, SSH/VPN configuration and Mac automation were not changed.
 Validation passed: 18 policy and startup tests, live isolation checks on Chatty
 and a separate generic pod, JAX/Numba computation, SciPy sparse operations, both
 checkpoint decoders, two preparation backends and rejected unsafe requests.
-The generic pod was exported and removed after verification; Chatty remains running.
+The generic pod was exported and removed after verification. The Chatty demo
+pods were retained for inspection.
 
 Next integration step: implement isolated destination workers for Paderborn and
 the workstation pool, verify their boundaries, then connect Chatty's launchers.
@@ -59,6 +65,7 @@ CLAUDE.md and pod-settings.json during startup. Choose CPU/RAM/workspace/process
 limits and jobs mode with the profile or start command overrides. The off-mode
 test also confirmed that editing workspace settings cannot enable jobs.
 
-The earlier chatty-demo remains running without being restarted. Existing pods
-are not automatically upgraded; the updated startup behavior is demonstrated by
-chatty-startup. The temporary off-mode test pod was exported and removed.
+The earlier chatty-demo was retained without a restart during the startup change.
+Existing pods are not automatically upgraded; the updated startup behavior was
+verified with chatty-startup. The temporary off-mode test pod was exported and
+removed.
